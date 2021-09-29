@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Meditalk</string>
+    <string name="kakao_app_key">ad98a690379d48de61e37de21f43bc31</string>
+    <string name="kakao_scheme">kakaoad98a690379d48de61e37de21f43bc31</string>
+    <string name="kakaolink_host">kakaolink</string>
+</resources>
+
+
