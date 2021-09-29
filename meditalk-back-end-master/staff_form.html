@@ -1,0 +1,43 @@
+<form action="staff_form.php" method="POST">
+    <div id='staff-form-box'>
+        <div>
+            <label>의료진 이름</label>
+            <input type='text' name='ms_name1' class='form-control col-md-6' placeholder='의료진 이름'>
+            <label>의료진 직급</label>
+            <select name='ms_position1' class='form-control col-md-6'>
+                <option value='1'>원장님</option>
+                <option value='2'>선생님</option>
+            </select>
+            <a id='delete-form' class='btn btn-danger' style="color:white; margin-top:20px;">삭제</a>
+            <hr>
+        </div>
+    </div>
+    <input id="count" type="hidden" name='count' value="1">
+    <a id='append-form' class='btn btn-info' style='color:white; margin-top:30px;'>의료진 폼추가</a>
+    <input type="submit" value="등록" class='btn btn-info' style='color:white; margin-top:30px;'>
+</form>
+    <script>
+        var number=2;
+        $('#append-form').click(function(){
+            var form = $("<div>\
+                          <label>의료진 이름</label>\
+                          <input type='text' name='ms_name"+(number)+"' class='form-control col-md-6' placeholder='의료진 이름'>\
+                          <label>의료진 직급</label>\
+                          <select name='ms_position"+(number)+"' class='form-control col-md-6'>\
+                                <option value='1'>원장님</option>\
+                                <option value='2'>선생님</option>\
+                        </select>\
+                        <a id='delete-form' class='btn btn-danger' style='color:white; margin-top:20px;'>삭제</a>\
+                        <hr>\
+                        </div>");
+            $("#count").val(number);            
+            number++;            
+            $("#staff-form-box").append(form);
+        });
+        
+        $(document).on("click","#delete-form",function(){
+            $(this).closest("div").empty();
+            number--;
+            $("#count").val(number);
+        });
+    </script>

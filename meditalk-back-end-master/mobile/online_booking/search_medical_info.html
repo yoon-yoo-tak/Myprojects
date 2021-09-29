@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        *{margin:0; padding: 0;}
+        .search-box{
+		    display: inline-block;
+            width:77%;
+	    	height:30px;
+            
+		    border-radius:10px;
+		    background:rgb(230,230,230);
+		    position:relative;
+            top:0px;
+            left:3%;
+	    }
+    .search-box img {
+		padding-left:10px;
+		padding-top:7px;
+	}
+	.search-box input{
+		width:80%;
+		height:20px;
+		border:0px;
+		background:rgb(230,230,230);	
+		padding-left:10px;
+		position:absolute;
+		top:4px;
+	}
+    .hp-name{
+        font-size: 20px;
+        color:rgb(52,68,110);
+    }
+    .hp-addr{
+        font-size:15px;
+        color:rgb(154,162,183);
+    }
+    .hp-time{
+        font-size:15px;
+        color:rgb(52,68,110);
+
+    }
+    ul{
+        list-style: none;
+        
+    }
+    
+    .hp-list{
+        width:94%;
+        margin:0 auto;
+    }
+    .hp-list p{
+        margin-bottom: 4px;
+    }
+    ul li{
+          text-align: center;
+      }
+    </style>
+</head>
+<body>
+    
+    <div width="97%" style="margin-bottom:4%; margin-left:3%;">
+        <img src="img/left.png" onclick="back();">
+        <div class="search-box">
+            <img src="img/search.png">
+            <input id="search-field" type="search" placeholder="증상을 입력해주세요.">	
+        </div>  
+    </div>
+    <p class="text-center" style="font-size:20px;  color:rgb(52,68,110);">의료정보 보기</p>
+    <hr style="border-color:rgb(230,230,230);">
+    <ul class="board-list-box">
+       <!-- <li class="hp-list">
+            <p class="hp-name">내덕중앙병원</p>
+            <p class="hp-addr">충청북도 청주시 청원구 안덕볼 40</p>
+            <p class="hp-time">화요일 8:00~18:00</p>
+        </li>
+        <hr style="border-color:rgb(230,230,230);">-->
+
+    </ul>
+    <div id="search-result-msg" class="text-center">
+        <div>
+            <img src="img/search-result.jpg">
+            <p>검색 내용이 없습니다.</p>
+        </div>
+    </div>
+    <script>
+        var h = (window.innerHeight - 170)/2;
+        
+        $("#search-result-msg").css({
+            "width":"100%",
+            "position":"absolute",
+            "top":h+"px"
+        });
+        //검색 필드에 keyup 이벤트 발생시 
+        $("#search-field").keyup(function(){
+            var val = $(this).val();
+            if(val != "")
+                ajax(val);
+            else {
+                $(".board-list-box").empty();   
+                $("#search-result-msg").css("display","block");
+            }
+        });
+        function ajax(keyword){
+            
+            $.ajax({
+                type : 'POST',
+                url : "search_medical_info.php",
+                data : {
+                    'keyword':keyword,
+                },
+                success : function (data) {
+                    makelist(data);
+                }
+            });
+        }
+        //병원 리스트 태그 생성 추가
+        function makelist(board_list){
+            $(".board-list-box").empty();
+            
+            if(board_list.length == 0){
+                $("#search-result-msg").css("display","block");
+            }else{
+                $("#search-result-msg").css("display","none");
+            }
+            for(var key in board_list){
+                
+                var tag = "\
+                            <li class='item' pk="+board_list[key][0]+">\
+                                <img width='60%'src='img/board_logo.png'>\
+                                <p style='color:rgb(52,68,110); font-weight: bold;'>"+board_list[key][1]+"</p>\
+                            </li>\
+                            <hr style='border-color:rgb(230,230,230);'>\
+                            ";
+               $(".board-list-box").append(tag);             
+            }
+        }
+        //var user_id = window.android.getUserId();
+        //var user_id = "poapo";
+        //item 클리시
+        $(document).on("click",".item",function(){
+            var pk = $(this).attr("pk");
+            
+            window.location.href="/mobile/medical_board_detail.php?index="+pk+"&user_id=<?=$_GET['user_id']?>";
+
+        });
+        //back 아이콘 클릭시
+        function back(){
+            window.location.href="/mobile/medical_board.php?user_id=<?=$_GET['user_id']?>";
+        }
+    </script>
+</body>
+</html>

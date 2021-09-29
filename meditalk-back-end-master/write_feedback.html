@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <!-- include libraries(jQuery, bootstrap) -->
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+
+    <!-- include summernote css/js -->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
+    <style>
+      .note-editor{
+         margin:0 auto;
+         margin-top:30px;
+      }
+      #save-btn{
+            width:166px; 
+            height:33px; 
+            background:rgb(52,68,110); 
+            color:white; 
+            border-radius:15px; 
+            line-height: 33px; 
+            text-align: center;
+            margin:0 auto;
+            margin-top:28px;
+      }
+    </style>
+</head>
+<body>
+    <div id="summernote"></div> 
+    
+    <div id="save-btn">저장</div>
+    <script>
+        $(document).ready(function() {
+            $('#summernote').summernote({
+                placeholder: '증상 피드백 입력해주세요',
+                width:600,
+                height:300
+            });
+        });
+        $("#save-btn").click(function(){
+            var markupStr = $('#summernote').summernote('code');
+            $("#feedback",opener.document).val(markupStr);
+            window.close();
+        });
+    </script>
+</body>
+</html>
